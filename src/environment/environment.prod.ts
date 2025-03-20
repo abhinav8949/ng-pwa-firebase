@@ -1,0 +1,11 @@
+export const environment = {
+    production: true,
+    firebaseConfig: {
+        apiKey: "AIzaSyDOHQArG9XYuuJtlqIZlCt3HoF6jFpJsIw",
+        authDomain: "expense-tracker-1ff01.firebaseapp.com",
+        projectId: "expense-tracker-1ff01",
+        storageBucket: "expense-tracker-1ff01.firebasestorage.app",
+        messagingSenderId: "524581951426",
+        appId: "1:524581951426:web:72e561200704ea442b285b"
+    }
+};
