@@ -51,6 +51,15 @@ li {
     z-index: 1111; /* Ensures sidebar stays above content */
 }
 
+.navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 2000;
+    background-color: #fff;
+    transition: all 0.35s ease-in-out;
+    box-shadow: 0 0 2px 0 rgb(0, 0, 0);
+}
+
 /* Sidebar Collapse */
 #sidebar.collapsed {
     margin-left: -264px;
@@ -66,18 +75,18 @@ li {
     transition: all 0.35s ease-in-out;
 }
 
-.sidebar-logo {
-    padding: 1.15rem 1.5rem;
+.navbar-logo {
+    padding: 0.15rem 1.5rem;
 }
 
-.sidebar-logo a {
+.navbar-logo a {
     color: #000204;
     font-size: 1.25rem;
     font-weight: 600;
 }
 
 .sidebar-nav {
-    padding: 0;
+    padding: 4.5rem 0.5rem .375rem;
 }
 
 .sidebar-header {
@@ -124,6 +133,11 @@ a.sidebar-link {
 @media (max-width: 768px) {
     #sidebar {
         position: fixed; /* Keeps sidebar full height on smaller screens */
+        margin-left: -264px; /* Hides sidebar on smaller screens */
+    }
+
+    #navbar {
+        position: sticky; /* Keeps navbar fixed on smaller screens */
     }
 
     .main {
