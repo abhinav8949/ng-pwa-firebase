@@ -7,21 +7,26 @@ import { AddExpenseComponent } from './features/expenses/add-expense/add-expense
 import { EditExpenseComponent } from './features/expenses/edit-expense/edit-expense.component';
 import { ExpenseListComponent } from './features/expenses/expense-list/expense-list.component';
 import { ReportsComponent } from './features/reports/reports.component';
+import { authGuard } from './core/guards/auth.guard';
+import { authReverseGuard } from './core/guards/auth-reverse.guard';
 
 export const routes: Routes = [
     {
         path: '',
         component: LoginComponent,
+        canActivate: [authReverseGuard],
         pathMatch: 'full'
     },
     {
         path: 'signup',
         component: SignupComponent,
+        canActivate: [authReverseGuard],
         pathMatch: 'full'
     },
     {
         path: 'home',
         component: HomeComponent,
+        canActivate: [authGuard],
         children: [
             {
                 path: '',
