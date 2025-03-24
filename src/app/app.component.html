@@ -1,1 +1,11 @@
 <router-outlet></router-outlet>
+
+<!-- ✅ Show Offline Banner -->
+<div *ngIf="(isOffline$ | async)" class="network-banner offline">
+  🔴 You are offline. Changes will sync when online.
+</div>
+
+<!-- ✅ Show Online Banner -->
+<div *ngIf="(showOnlineBanner$ | async)" class="network-banner online">
+  ✅ Welcome! You are online.
+</div>

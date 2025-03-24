@@ -2,13 +2,13 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { HomeComponent } from './features/home/home.component';
 import { SignupComponent } from './features/auth/signup/signup.component';
-import { BudgetComponent } from './features/budget/budget.component';
 import { AddExpenseComponent } from './features/expenses/add-expense/add-expense.component';
-import { EditExpenseComponent } from './features/expenses/edit-expense/edit-expense.component';
 import { ExpenseListComponent } from './features/expenses/expense-list/expense-list.component';
 import { ReportsComponent } from './features/reports/reports.component';
 import { authGuard } from './core/guards/auth.guard';
 import { authReverseGuard } from './core/guards/auth-reverse.guard';
+import { BudgetDashboardComponent } from './features/budget-dashboard/budget-dashboard.component';
+import { AddBudgetComponent } from './features/expenses/add-budget/add-budget.component';
 
 export const routes: Routes = [
     {
@@ -30,7 +30,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: BudgetComponent
+                component: BudgetDashboardComponent
             },
             {
                 path: 'expense-list',
@@ -41,8 +41,12 @@ export const routes: Routes = [
                 component: AddExpenseComponent
             },
             {
+                path: 'add-budget',
+                component: AddBudgetComponent
+            },
+            {
                 path: 'edit-expense/:id',
-                component: EditExpenseComponent
+                component: AddExpenseComponent
             },
             {
                 path: 'report',
