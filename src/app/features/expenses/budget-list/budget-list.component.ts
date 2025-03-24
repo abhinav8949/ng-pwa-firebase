@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BudgetService } from '../../../core/services/budget.service';
 import { Budget } from '../../../core/models/expense';
+import { BudgetService } from '../../../core/services/budget.service';
+import { ExpenseService } from '../../../core/services/expense.service';
 
 @Component({
-  selector: 'app-add-budget',
+  selector: 'app-budget-list',
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './add-budget.component.html',
-  styleUrl: './add-budget.component.css'
+  templateUrl: './budget-list.component.html',
+  styleUrl: './budget-list.component.css'
 })
-export class AddBudgetComponent implements OnInit {
+export class BudgetListComponent implements OnInit{
 
   months = [
     { value: "january", label: "January" }, { value: "february", label: "February" },
@@ -26,8 +27,11 @@ export class AddBudgetComponent implements OnInit {
   filteredBudgets: Budget[] = [];
   uniqueYears: number[] = [];
   selectedYear: number | null = null;
+  filteredExpenses: { month: string; totalAmount: number }[] = [];
 
-  constructor(private fb: FormBuilder, private budgetService: BudgetService) {
+  constructor(private fb: FormBuilder,
+    private budgetService: BudgetService,
+    private expenseService: ExpenseService) {
     this.budgetForm = this.fb.group({
       year: ['', Validators.required],
       month: ['', Validators.required],
@@ -56,6 +60,7 @@ export class AddBudgetComponent implements OnInit {
   filterBudgetsByYear(year: number) {
     this.selectedYear = year;
     this.filteredBudgets = this.budgetList.filter(b => b.year === year);
+    this.getMonthlyExpense(year);
   }
 
   saveBudget() {
@@ -66,4 +71,15 @@ export class AddBudgetComponent implements OnInit {
       this.getAllBudgets();
     });
   }
+
+  getMonthlyExpense(year:number){
+    this.expenseService.getMonthlyExpenseByYear(year).subscribe(expenses => {
+      this.filteredExpenses = expenses;
+    });
+  }
+
+  getExpenseForMonth(month: string): number {
+    return this.filteredExpenses.find(exp => exp.month === month)?.totalAmount || 0;
+  }
+
 }

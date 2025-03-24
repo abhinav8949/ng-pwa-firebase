@@ -57,4 +57,24 @@ export class ExpenseService {
     await deleteDoc(expenseDoc);
   }
   
+  getMonthlyExpenseByYear(year: number): Observable<{ month: string; totalAmount: number }[]> {
+    const user = this.auth.currentUser;
+    if (!user) return new Observable();
+  
+    const q = query(this.expenseCollection, where('userId', '==', user.uid));
+  
+    return collectionData(q, { idField: 'id' }).pipe(
+      map((expenses) => {
+        return (expenses as Expense[]) // ✅ Explicitly cast Firestore data as Expense[]
+          .filter(exp => new Date(exp.date).getFullYear() === year) // ✅ Filter by selected year
+          .reduce((acc, exp) => {
+            const month = new Date(exp.date).toLocaleString('default', { month: 'long' }).toLowerCase(); // "march"
+            acc[month] = (acc[month] || 0) + exp.amount; // ✅ Sum amounts for each month
+            return acc;
+          }, {} as Record<string, number>);
+      }),
+      map(monthlyExpenses => Object.entries(monthlyExpenses).map(([month, totalAmount]) => ({ month, totalAmount })))
+    );
+  } 
+  
 }
