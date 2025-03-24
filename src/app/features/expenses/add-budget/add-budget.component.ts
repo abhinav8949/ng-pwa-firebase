@@ -1,44 +1,69 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BudgetService } from '../../../core/services/budget.service';
+import { Budget } from '../../../core/models/expense';
 
 @Component({
   selector: 'app-add-budget',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './add-budget.component.html',
   styleUrl: './add-budget.component.css'
 })
 export class AddBudgetComponent implements OnInit {
-  budgetAmount: number = 0;
-  selectedMonth: string = '';
-  currentBudget: number = 0;
 
-  constructor(private budgetService: BudgetService) { }
+  months = [
+    { value: "january", label: "January" }, { value: "february", label: "February" },
+    { value: "march", label: "March" }, { value: "april", label: "April" },
+    { value: "may", label: "May" }, { value: "june", label: "June" },
+    { value: "july", label: "July" }, { value: "august", label: "August" },
+    { value: "september", label: "September" }, { value: "october", label: "October" },
+    { value: "november", label: "November" }, { value: "december", label: "December" }
+  ];
+
+  budgetForm: FormGroup;
+  budgetList: Budget[] = [];
+  filteredBudgets: Budget[] = [];
+  uniqueYears: number[] = [];
+  selectedYear: number | null = null;
+
+  constructor(private fb: FormBuilder, private budgetService: BudgetService) {
+    this.budgetForm = this.fb.group({
+      year: ['', Validators.required],
+      month: ['', Validators.required],
+      amount: ['', [Validators.required, Validators.min(1)]]
+    });
+  }
 
   ngOnInit() {
-    this.selectedMonth = new Date().toISOString().slice(0, 7); // Format: YYYY-MM;
+    this.getAllBudgets();
+  }
 
-    this.getBudgetForMonth();
+  getAllBudgets() {
+    this.budgetService.getAllBudgets().subscribe((budgets) => {
+      this.budgetList = budgets;
+      this.extractUniqueYears();
+      if (this.uniqueYears.length > 0) {
+        this.filterBudgetsByYear(this.uniqueYears[0]); // Default to first year
+      }
+    });
+  }
+
+  extractUniqueYears() {
+    this.uniqueYears = [...new Set(this.budgetList.map(b => b.year))].sort((a, b) => b - a);
+  }
+
+  filterBudgetsByYear(year: number) {
+    this.selectedYear = year;
+    this.filteredBudgets = this.budgetList.filter(b => b.year === year);
   }
 
   saveBudget() {
-    if (!this.selectedMonth || this.budgetAmount <= 0) {
-      alert('Please select a month and enter a valid budget.');
-      return;
-    }
-
-    this.budgetService.setMonthlyBudget(this.selectedMonth, this.budgetAmount)
-      .then(() => {
-        alert('Budget saved successfully!');
-        this.getBudgetForMonth();
-      })
-      .catch(error => console.error('Error saving budget:', error));
-  }
-
-  getBudgetForMonth() {
-    this.budgetService.getMonthlyBudget(this.selectedMonth).subscribe(budget => {
-      this.currentBudget = budget?.amount || 0;
+    if (this.budgetForm.invalid) return;
+    const { year, month, amount } = this.budgetForm.value;
+    this.budgetService.addBudget(year, month, amount).then(() => {
+      this.budgetForm.reset();
+      this.getAllBudgets();
     });
   }
 }

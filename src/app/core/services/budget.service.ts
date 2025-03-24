@@ -3,29 +3,33 @@ import { Auth } from '@angular/fire/auth';
 import { collection, collectionData, doc, docData, Firestore, setDoc } from '@angular/fire/firestore';
 import { query, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
+import { Budget } from '../models/expense';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
 
-  constructor(private firestore:Firestore, private auth:Auth) {}
+  constructor(private firestore: Firestore, private auth: Auth) { }
 
-  // ✅ Set Budget for Specific Month
-  async setMonthlyBudget(month: string, amount: number): Promise<void> {
+  async addBudget(year: number, month: string, amount: number): Promise<void> {
     const user = this.auth.currentUser;
     if (!user) throw new Error('User not found');
-
-    const budgetDocRef = doc(this.firestore, `budgets/${user.uid}_${month}`);
-    await setDoc(budgetDocRef, { userId: user.uid, month, amount });
+  
+    const budgetData: Budget = { userId: user.uid, year, month, amount };
+    const budgetRef = doc(this.firestore, `budgets/${user.uid}_${year}_${month}`);
+  
+    await setDoc(budgetRef, budgetData, { merge: true });
   }
+  
 
-  // ✅ Get Budget for Selected Month
-  getMonthlyBudget(month: string): Observable<{ amount: number } | undefined> {
+  getAllBudgets(): Observable<Budget[]> {
     const user = this.auth.currentUser;
     if (!user) throw new Error('User not found');
 
-    const budgetDocRef = doc(this.firestore, `budgets/${user.uid}_${month}`);
-    return docData(budgetDocRef) as Observable<{ amount: number } | undefined>;
+    const budgetCollection = collection(this.firestore, 'budgets');
+    const userQuery = query(budgetCollection, where('userId', '==', user.uid));
+
+    return collectionData(userQuery, { idField: 'id' }) as Observable<Budget[]>;
   }
 }

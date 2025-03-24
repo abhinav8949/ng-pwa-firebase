@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase/firestore";
-
 export interface Expense {
     id?: string;         // Firestore Document ID
     userId: string;      // The user who owns the expense
@@ -9,9 +7,10 @@ export interface Expense {
     description?: string; // Optional description
 }
 
-export interface UserDetail {
-    id: string;
-    email: string;
-    name: string;
-    photoUrl: string;
+export interface Budget {
+    id?: string;   // Firestore document ID (optional)
+    userId: string; // Associated user
+    year: number;  // Budget year (e.g., 2024)
+    month: string; // Budget month (e.g., "03" for March)
+    amount: number; // Monthly budget amount
 }

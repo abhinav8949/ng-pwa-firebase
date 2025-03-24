@@ -55,8 +55,10 @@ export class AddExpenseComponent implements OnInit{
     const expenseData = this.expenseForm.value;
     if (this.expenseId) {
       await this.expenseService.updateExpense(this.expenseId, expenseData);
+      this.expenseForm.reset();
     } else {
       await this.expenseService.addExpense(expenseData);
+      this.expenseForm.reset();
     }
     this.router.navigate(['/home/expense-list']);
   }

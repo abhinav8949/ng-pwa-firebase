@@ -1,13 +1,77 @@
-<div class="budget-container">
-    <h2>Set Monthly Budget</h2>
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <h1 class="h3 mb-2 text-gray-800">Budget List</h1>
+  <p class="mb-4">Budget List is a collection of all your budget in one table where you can see entire budget of month,
+    for more clarification on you budget please see <a target="_blank" href="/home">Official DashBoard</a>.
+    <a class="btn btn-sm btn-warning px-2 mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Add New Budget
+    </a>
+  </p>
 
-    <label> Select Month </label>
-    <input type="month" [(ngModel)]="selectedMonth" />
+  <!-- DataTales Example -->
+  <div *ngIf="budgetList.length === 0">No budgets found.</div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination pagination-sm justify-content-center">
+      <li class="page-item" *ngFor="let year of uniqueYears" [class.active]="selectedYear === year"
+        (click)="filterBudgetsByYear(year)">
+        <a class="page-link">{{ year }}</a>
+      </li>
+    </ul>
+  </nav>
 
-    <label> Enter Budget (₹) </label>
-    <input type="number" [(ngModel)]="budgetAmount" placeholder="Enter budget in ₹" />
+  <div class="card shadow mb-4">
+    <div class="card-body">
 
-    <button (click)="saveBudget()">Save Budget</button>
 
-    <h3>Current Budget for {{ selectedMonth }}: ₹{{ currentBudget }}</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>(₹) Budget</th>
+              <th>(₹) Expenses</th>
+              <th>Remaining</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let budget of filteredBudgets">
+              <td>{{ budget.month }}</td>
+              <td>{{ budget.amount }}</td>
+              <!-- <td>{{ expense.amount }}</td>
+                          <td>{{ budget.amount - expense.amount }}</td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title fs-5" id="exampleModalLabel">Add Monthly Budget</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="budgetForm" (ngSubmit)="saveBudget()">
+          <label>Year:</label>
+          <input type="number" formControlName="year" placeholder="2025" required>
+
+          <label>Month:</label>
+          <select formControlName="month" required>
+            <option *ngFor="let m of months" [value]="m.value">{{ m.label }}</option>
+          </select>
+
+          <label>Amount (₹):</label>
+          <input type="number" formControlName="amount" placeholder="5000.90" required>
+
+          <button type="submit" [disabled]="budgetForm.invalid">Save Budget</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
