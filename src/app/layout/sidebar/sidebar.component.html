@@ -1,0 +1,138 @@
+<div class="wrapper">
+    <!-- Sidebar -->
+    <aside id="sidebar">
+
+        <div class="navbar" id="navbar">
+            <div class="container-fluid">
+                <button class="btn btn-primary d-md-none" id="sidebarToggle">☰ Menu</button>
+                <div class="navbar-logo">
+                    <a href="#">Expense Manager</a>
+                </div>
+
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">{{userEmail}}</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="h-100">
+            <!-- Sidebar Navigation -->
+            <ul class="sidebar-nav">
+                <li class="sidebar-header">
+                    Expense & Budget
+                </li>
+                <li class="sidebar-item">
+                    <a routerLink="/home/" class="sidebar-link">
+                        <i class="bi bi-building-dash"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pages"
+                        aria-expanded="false" aria-controls="pages">
+                        <i class="bi bi-bar-chart"></i>
+                        Budget
+                    </a>
+                    <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a routerLink="/home/expense-list" class="sidebar-link">Expense List</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a routerLink="/home/add-expense" class="sidebar-link">Add Expense</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a routerLink="/home/add-budget" class="sidebar-link">Add Budget</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a routerLink="/home/report" class="sidebar-link">Report</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#auth"
+                        aria-expanded="false" aria-controls="auth">
+                        <i class="bi bi-person-circle"></i>
+                        Auth
+                    </a>
+                    <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+
+                        <!-- Show Login & Register ONLY if user is NOT logged in -->
+                        <ng-container *ngIf="!isLoggedIn">
+                            <li class="sidebar-item">
+                                <a routerLink="/login" class="sidebar-link">Login</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a routerLink="/signup" class="sidebar-link">Register</a>
+                            </li>
+                        </ng-container>
+
+                        <!-- Show Profile, Settings, and Logout ONLY if user is logged in -->
+                        <ng-container *ngIf="isLoggedIn">
+                            <li class="sidebar-item">
+                                <a routerLink="#" class="sidebar-link">My Profile</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a routerLink="#" class="sidebar-link">Settings</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" (click)="logout()">Logout</a>
+                            </li>
+                        </ng-container>
+
+                    </ul>
+                </li>
+                <li class="sidebar-header">
+                    Yearly Budget
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#multi"
+                        aria-expanded="false" aria-controls="multi">
+                        <i class="bi bi-explicit-fill"></i>
+                        Expense - 2025
+                    </a>
+                    <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#multi-one" aria-expanded="false" aria-controls="multi-one">
+                                Monthly History
+                            </a>
+                            <ul id="multi-one" class="sidebar-dropdown list-unstyled collapse">
+                                <li class="sidebar-item">
+                                    <a href="#" class="sidebar-link">January - July</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="#" class="sidebar-link">July - December</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#multi-2"
+                        aria-expanded="false" aria-controls="multi">
+                        <i class="bi bi-explicit-fill"></i>
+                        Expense - 2026
+                    </a>
+                    <ul id="multi-2" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#multi-two" aria-expanded="false" aria-controls="multi-two">
+                                Monthly History
+                            </a>
+                            <ul id="multi-two" class="sidebar-dropdown list-unstyled collapse">
+                                <li class="sidebar-item">
+                                    <a href="#" class="sidebar-link">January - July</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="#" class="sidebar-link">July - December</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </aside>
+</div>

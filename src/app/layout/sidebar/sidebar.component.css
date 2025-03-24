@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-image: url("https://codzsword.github.io/bootstrap-sidebar/background-image.jpg");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: cover;
+}
+
+h3 {
+    font-size: 1.2375rem;
+    color: #1e1616;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+li {
+    list-style: none;
+}
+
+/* Layout Skeleton */
+.wrapper {
+    align-items: stretch;
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar */
+#sidebar {
+    max-width: 264px;
+    min-width: 264px;
+    height: 100vh; /* Full height for the sidebar */
+    position: fixed; /* Fixed position to maintain full height */
+    top: 0;
+    left: 0;
+    background-color: #fff; /* Ensures sidebar background covers full height */
+    transition: all 0.35s ease-in-out;
+    box-shadow: 0 0 5px 0 rgb(0, 0, 0);
+    z-index: 1111; /* Ensures sidebar stays above content */
+}
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 2000;
+    background-color: #fff;
+    transition: all 0.35s ease-in-out;
+    box-shadow: 0 0 2px 0 rgb(0, 0, 0);
+}
+
+/* Sidebar Collapse */
+#sidebar.collapsed {
+    margin-left: -264px;
+}
+
+/* Main Content */
+.main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    margin-left: 264px; /* Ensures content starts after the sidebar */
+    transition: all 0.35s ease-in-out;
+}
+
+.navbar-logo {
+    padding: 0.15rem 1.5rem;
+}
+
+.navbar-logo a {
+    color: #000204;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.sidebar-nav {
+    padding: 4.5rem 0.5rem .375rem;
+}
+
+.sidebar-header {
+    color: #428ad3;
+    font-size: .75rem;
+    padding: 1.5rem 1.5rem .375rem;
+}
+
+a.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #0d0f11;
+    position: relative;
+    display: block;
+    font-size: 1rem;
+}
+
+.sidebar-link[data-bs-toggle="collapse"]::after {
+    border: solid;
+    border-width: 0 .075rem .075rem 0;
+    content: "";
+    color: rgb(255, 30, 30);
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.4rem;
+    transform: rotate(-135deg);
+    transition: all .2s ease-out;
+}
+
+.sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+}
+
+.content {
+    flex: 1;
+    max-width: 100vw;
+    width: 100vw;
+    padding: 2rem; /* Added padding for improved content spacing */
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+    #sidebar {
+        position: fixed; /* Keeps sidebar full height on smaller screens */
+        margin-left: -264px; /* Hides sidebar on smaller screens */
+    }
+
+    #navbar {
+        position: sticky; /* Keeps navbar fixed on smaller screens */
+    }
+
+    .main {
+        margin-left: 0; /* Ensures content spans full width when sidebar is collapsed */
+    }
+}
+
+/* Child Sidebar Links */
+.sidebar-dropdown .sidebar-item .sidebar-link {
+    padding-left: 2.5rem; /* Increased left padding for indentation */
+    font-size: 0.875rem;  /* Smaller font size for child links */
+    color: #6c757d;       /* Slightly lighter color to distinguish */
+}
+
+.sidebar-dropdown .sidebar-item .sidebar-link:hover {
+    color: #0d6efd;       /* Highlight on hover */
+    background-color: rgba(13, 110, 253, 0.1); /* Subtle background for focus */
+}
+
+/* Second-level dropdown links */
+#multi-two .sidebar-link {
+    padding-left: 3rem; /* Extra indentation for deeper levels */
+    font-size: 0.8rem;   /* Even smaller size for deeper links */
+    color: #868e96;      /* Slightly muted color for clarity */
+}

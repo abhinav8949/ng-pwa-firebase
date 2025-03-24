@@ -1,0 +1,46 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Expense List</h1>
+    <p class="mb-4">Expense List is a collection of all your expenses in one table where you can see entire expense within your budget,
+        for more clarification on you budget please see <a target="_blank"
+            href="/home">Official DashBoard</a>. 
+            <a routerLink="/home/add-expense" class="btn btn-sm btn-warning px-2 mx-4">Add New Expense</a></p>
+            
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Amount (₹)</th>
+                            <th>Category</th>
+                            <th>Date & Time</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let expense of expenseArray">
+                            <td>{{ expense.amount }}</td>
+                            <td>{{ expense.category }}</td>
+                            <td>{{ expense.date | date }}</td>
+                            <td>{{ expense.description || 'N/A' }}</td>
+                            <td>
+                              <button class="btn btn-danger btn-sm mx-1" (click)="deleteExpense(expense.id!)">
+                                <i class="bi bi-trash3"></i>
+                              </button>
+                              <button class="btn btn-secondary btn-sm" (click)="editExpense(expense.id!)">
+                                <i class="bi bi-pencil-square"></i>
+                              </button>
+                            </td>
+                          </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->

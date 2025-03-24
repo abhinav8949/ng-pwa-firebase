@@ -1,0 +1,13 @@
+<div class="budget-container">
+    <h2>Set Monthly Budget</h2>
+
+    <label> Select Month </label>
+    <input type="month" [(ngModel)]="selectedMonth" />
+
+    <label> Enter Budget (₹) </label>
+    <input type="number" [(ngModel)]="budgetAmount" placeholder="Enter budget in ₹" />
+
+    <button (click)="saveBudget()">Save Budget</button>
+
+    <h3>Current Budget for {{ selectedMonth }}: ₹{{ currentBudget }}</h3>
+</div>
