@@ -3,11 +3,11 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { HomeComponent } from './features/home/home.component';
 import { SignupComponent } from './features/auth/signup/signup.component';
 import { ExpenseListComponent } from './features/expenses/expense-list/expense-list.component';
-import { ReportsComponent } from './features/reports/reports.component';
 import { authGuard } from './core/guards/auth.guard';
 import { authReverseGuard } from './core/guards/auth-reverse.guard';
 import { BudgetListComponent } from './features/expenses/budget-list/budget-list.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { ExpenseOverviewComponent } from './features/reports/expense-overview/expense-overview.component';
 
 export const routes: Routes = [
     {
@@ -39,14 +39,10 @@ export const routes: Routes = [
                 path: 'budget-list',
                 component: BudgetListComponent
             },
-            // {
-            //     path: 'add-expense',
-            //     component: AddExpenseComponent
-            // },
             {
-                path: 'report',
-                component: ReportsComponent
-            }
+                path: 'overview',
+                component: ExpenseOverviewComponent
+            },
         ]
     },
 ];
