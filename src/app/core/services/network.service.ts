@@ -36,6 +36,6 @@ export class NetworkService {
       this.ngZone.run(() => {
         this.showOnlineBannerSubject.next(false);
       });
-    }, 2000); // ✅ Online banner disappears after 3 sec
+    }, 2000);
   }
 }
