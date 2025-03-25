@@ -5,18 +5,21 @@ import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import {provideFirebaseApp, initializeApp} from '@angular/fire/app'
 import {provideAuth, getAuth} from '@angular/fire/auth'
-import { provideFirestore, getFirestore, enableIndexedDbPersistence, initializeFirestore, persistentLocalCache } from '@angular/fire/firestore';
+import { provideFirestore, initializeFirestore, persistentLocalCache } from '@angular/fire/firestore';
 import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 import { environment } from '../environment/environment';
 import { provideServiceWorker } from '@angular/service-worker';
 import { ReactiveFormsModule } from '@angular/forms';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
     provideHttpClient(),
     ReactiveFormsModule,
-
+    provideAnimations(), // required animations providers
+    provideToastr(),
     // Firebase Providers
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),

@@ -6,8 +6,8 @@ import { ExpenseListComponent } from './features/expenses/expense-list/expense-l
 import { ReportsComponent } from './features/reports/reports.component';
 import { authGuard } from './core/guards/auth.guard';
 import { authReverseGuard } from './core/guards/auth-reverse.guard';
-import { BudgetDashboardComponent } from './features/budget-dashboard/budget-dashboard.component';
 import { BudgetListComponent } from './features/expenses/budget-list/budget-list.component';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 export const routes: Routes = [
     {
@@ -29,7 +29,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: BudgetDashboardComponent
+                component: DashboardComponent
             },
             {
                 path: 'expense-list',

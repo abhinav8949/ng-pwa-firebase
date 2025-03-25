@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Budget } from '../../../core/models/expense';
 import { BudgetService } from '../../../core/services/budget.service';
 import { ExpenseService } from '../../../core/services/expense.service';
+import { ToastrService } from 'ngx-toastr';
+import { FirebaseMessagingService } from '../../../core/services/firebase-messaging.service';
 
 @Component({
   selector: 'app-budget-list',
@@ -11,7 +13,7 @@ import { ExpenseService } from '../../../core/services/expense.service';
   templateUrl: './budget-list.component.html',
   styleUrl: './budget-list.component.css'
 })
-export class BudgetListComponent implements OnInit{
+export class BudgetListComponent implements OnInit {
 
   months = [
     { value: "january", label: "January" }, { value: "february", label: "February" },
@@ -31,7 +33,9 @@ export class BudgetListComponent implements OnInit{
 
   constructor(private fb: FormBuilder,
     private budgetService: BudgetService,
-    private expenseService: ExpenseService) {
+    private expenseService: ExpenseService,
+    private toast: ToastrService,
+    private fcmService: FirebaseMessagingService) {
     this.budgetForm = this.fb.group({
       year: ['', Validators.required],
       month: ['', Validators.required],
@@ -41,6 +45,29 @@ export class BudgetListComponent implements OnInit{
 
   ngOnInit() {
     this.getAllBudgets();
+  }
+
+  saveBudget() {
+    if (this.budgetForm.invalid) return;
+    const { year, month, amount } = this.budgetForm.value;
+    this.budgetService.addBudget(year, month, amount).then(() => {
+      this.budgetForm.reset();
+      this.getAllBudgets();
+    });
+
+    const modalElement = document.getElementById('exampleModal');
+    if (modalElement) {
+      (window as any).bootstrap.Modal.getInstance(modalElement)?.hide();
+    }
+    const fcmUniqueKey = `Save-${month}-${year}`
+    this.fcmService.sendFCMNotification(
+      "New Budget Added", 
+      `A budget of ₹${amount} has been recorded for ${month}-${year}`,
+      fcmUniqueKey
+    );
+    this.toast.success(`Budget of ₹ ${amount} recorded for ${month}-${year}`, 'Success', {
+      timeOut: 10000 
+    });
   }
 
   getAllBudgets() {
@@ -63,23 +90,40 @@ export class BudgetListComponent implements OnInit{
     this.getMonthlyExpense(year);
   }
 
-  saveBudget() {
-    if (this.budgetForm.invalid) return;
-    const { year, month, amount } = this.budgetForm.value;
-    this.budgetService.addBudget(year, month, amount).then(() => {
-      this.budgetForm.reset();
-      this.getAllBudgets();
+  getMonthlyExpense(year: number) {
+    this.expenseService.getMonthlyExpenseByYear(year).subscribe(expenses => {
+      this.filteredExpenses = expenses;
+
+      this.filteredBudgets.forEach(budget => {
+        const monthExpense = this.getExpenseForMonth(budget.month);
+        const threshold = budget.amount * 0.8;
+        const fcmUniqueKey = `Budget-${budget.month}-${year}`;
+        if (monthExpense >= threshold) {
+          this.fcmService.sendFCMNotification(
+            "Budget Warning", 
+            `You have used 80% of your budget for ${budget.month}-${year}.`,
+            fcmUniqueKey
+          );
+          this.showWarningNotification(budget.month, year, monthExpense, budget.amount);
+        }
+      });
     });
   }
 
-  getMonthlyExpense(year:number){
-    this.expenseService.getMonthlyExpenseByYear(year).subscribe(expenses => {
-      this.filteredExpenses = expenses;
-    });
+  private warnedMonth = new Set<string>();
+
+  showWarningNotification(month: string, year: number, expenseTotal: number, budgetAmount: number) {
+    const percentUsed = ((expenseTotal / budgetAmount) * 100).toFixed(2);
+    const warningMessage = `Oops! In ${month}-${year}, you have used ${percentUsed}% of your budget.`;
+    const warningKey = `${month}-${year}`;
+    if(this.warnedMonth.has(warningKey)) return;
+    this.warnedMonth.add(warningKey);
+    this.toast.warning(warningMessage, 'Warning',{
+      timeOut: 10000
+    })
   }
 
   getExpenseForMonth(month: string): number {
     return this.filteredExpenses.find(exp => exp.month === month)?.totalAmount || 0;
   }
-
 }
