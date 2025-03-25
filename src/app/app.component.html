@@ -1,5 +1,7 @@
 <router-outlet></router-outlet>
 
+<button *ngIf="showInstallButton" (click)="installPWA()">Install App</button>
+
 <!-- ✅ Show Offline Banner -->
 <div *ngIf="(isOffline$ | async)" class="network-banner offline">
   🔴 You are offline. Changes will sync when online.

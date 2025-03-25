@@ -36,7 +36,7 @@ export class LineChartComponent implements OnInit{
   initializeChart() {
     this.chartOptions = {
       chart: { 
-        type: 'line', 
+        type: 'area', 
         height: 320
       },
       xaxis: { categories: this.categories },

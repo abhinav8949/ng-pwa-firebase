@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NetworkService } from './core/services/network.service';
 import { FirebaseMessagingService } from './core/services/firebase-messaging.service';
@@ -27,5 +26,25 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.fcmService.requestPermission();
     this.fcmService.listenForMessages()
+  }
+
+  deferredPrompt: any;
+  showInstallButton = false;
+
+  @HostListener('window:beforeinstallprompt', ['$event'])
+  onBeforeInstallPrompt(event: any) {
+    event.preventDefault();
+    this.deferredPrompt = event;
+    this.showInstallButton = true;
+  }
+
+  installPWA() {
+    if (this.deferredPrompt) {
+      this.deferredPrompt.prompt();
+      this.deferredPrompt.userChoice.then(() => {
+        this.deferredPrompt = null;
+        this.showInstallButton = false;
+      });
+    }
   }
 }

@@ -1,8 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { ApexAxisChartSeries } from 'ng-apexcharts';
-import { NgApexchartsModule } from 'ng-apexcharts';
+import { NgApexchartsModule, ApexAxisChartSeries } from 'ng-apexcharts';
 import { LineChartComponent } from "../charts/line-chart/line-chart.component";
 import { Expense } from '../../../core/models/expense';
 
@@ -49,6 +48,6 @@ export class ExpenseOverviewComponent implements OnInit, AfterViewInit {
     });
 
     console.log("Updated chart data:", monthlyExpenses);
-    this.chartSeries = [{ name: "Expenses", data: monthlyExpenses }];
+    this.chartSeries = [{ name: "Expenses", data: monthlyExpenses, color: "#FF4560" }];
   }
 }
