@@ -4,7 +4,8 @@ The **Expense Tracker** is a user-friendly application designed to help individu
 provides a graphical representation of financial data, enabling users to visualize their financial 
 habits and make informed decisions.
 
-#### Host Url: ``https://expense-tracker-1ff01.web.app/``
+#### PROD URL: ``https://expense-tracker-1ff01.web.app``
+#### DEV URL: ``https://expense-tracker-1ff01-dev.web.app``
 
 ## Features
 ✅ **Expense Tracking** - Log daily, weekly, or monthly expenses with category-wise classification.
