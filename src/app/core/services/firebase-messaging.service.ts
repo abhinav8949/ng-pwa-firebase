@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { getMessaging, getToken, MessagePayload, Messaging, onMessage } from '@angular/fire/messaging';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../../environment/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -60,17 +60,17 @@ export class FirebaseMessagingService {
       const storedNotifications = JSON.parse(localStorage.getItem('budgetNotifications') || '{}');
       const now = Date.now();
       const cooldownTime = 30 * 60 * 1000; // 30 minutes
-  
+
       // If this budget notification exists and cooldown time hasn't passed, skip it
       if (storedNotifications[fcmUniqueKey] && now - storedNotifications[fcmUniqueKey] < cooldownTime) {
         console.warn(`Skipping duplicate notification for ${fcmUniqueKey}`);
         return;
       }
-  
+
       navigator.serviceWorker.ready
         .then(registration => {
           registration.showNotification(title, { body });
-  
+
           // Store notification timestamp
           storedNotifications[fcmUniqueKey] = now;
           localStorage.setItem('budgetNotifications', JSON.stringify(storedNotifications));
@@ -83,5 +83,5 @@ export class FirebaseMessagingService {
       this.requestPermission(); // Request permission if not granted
     }
   }
-  
+
 }
