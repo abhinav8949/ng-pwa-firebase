@@ -11,9 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
     steps:
-      - name: Deployment on DEV_ENV after 5 minutes...
-        run: sleep 300  # 300 seconds = 5 minutes
-
       - name: Checkout code
         uses: actions/checkout@v4
 
