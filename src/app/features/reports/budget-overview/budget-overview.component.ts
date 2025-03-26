@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Budget } from '../../../core/models/expense';
 import { Observable, Subscription } from 'rxjs';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -12,7 +12,7 @@ import { LineChartComponent } from "../charts/line-chart/line-chart.component";
   templateUrl: './budget-overview.component.html',
   styleUrl: './budget-overview.component.css'
 })
-export class BudgetOverviewComponent implements OnInit, OnDestroy{
+export class BudgetOverviewComponent implements OnInit, AfterViewInit{
 
   currentYear = new Date().getFullYear();
   budgets$: Observable<Budget[]>;
@@ -32,14 +32,23 @@ export class BudgetOverviewComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit() {
+    this.initializeChart()
     this.budgetsSubscription = this.budgets$.subscribe(budgets => this.processBudgetData(budgets));
   }
 
-  ngOnDestroy() {
-    if (this.budgetsSubscription) {
-      this.budgetsSubscription.unsubscribe(); // ✅ Prevent memory leaks
-    }
+  ngAfterViewInit() {
+    this.initializeChart();
   }
+
+  initializeChart() {
+    this.chartSeries = [{ name: "Budget", data: new Array(12).fill(0) }];
+  }
+
+  // ngOnDestroy() {
+  //   if (this.budgetsSubscription) {
+  //     this.budgetsSubscription.unsubscribe(); // ✅ Prevent memory leaks
+  //   }
+  // }
 
   processBudgetData(budgets: Budget[]) {
     const budgetData = new Array(12).fill(0);

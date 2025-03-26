@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { collection, collectionData, doc, docData, Firestore, setDoc } from '@angular/fire/firestore';
+import { collection, collectionData, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { query, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { Budget } from '../models/expense';

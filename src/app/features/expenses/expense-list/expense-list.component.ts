@@ -33,7 +33,6 @@ export class ExpenseListComponent implements OnInit {
     private fcmService: FirebaseMessagingService,
     private toast: ToastrService,
     private datePipe: DatePipe
-
   ) { }
 
   ngOnInit() {

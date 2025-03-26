@@ -24,7 +24,7 @@ export class BudgetListComponent implements OnInit {
     { value: "november", label: "November" }, { value: "december", label: "December" }
   ];
 
-  budgetForm: FormGroup;
+  budgetForm: FormGroup | any;
   budgetList: Budget[] = [];
   filteredBudgets: Budget[] = [];
   uniqueYears: number[] = [];
@@ -35,7 +35,11 @@ export class BudgetListComponent implements OnInit {
     private budgetService: BudgetService,
     private expenseService: ExpenseService,
     private toast: ToastrService,
-    private fcmService: FirebaseMessagingService) {
+    private fcmService: FirebaseMessagingService) { }
+
+  ngOnInit() {
+    this.getAllBudgets();
+
     this.budgetForm = this.fb.group({
       year: ['', Validators.required],
       month: ['', Validators.required],
@@ -43,14 +47,10 @@ export class BudgetListComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.getAllBudgets();
-  }
-
-  saveBudget() {
+  async saveBudget() {
     if (this.budgetForm.invalid) return;
     const { year, month, amount } = this.budgetForm.value;
-    this.budgetService.addBudget(year, month, amount).then(() => {
+    await this.budgetService.addBudget(year, month, amount).then(() => {
       this.budgetForm.reset();
       this.getAllBudgets();
     });
@@ -70,7 +70,7 @@ export class BudgetListComponent implements OnInit {
     });
   }
 
-  getAllBudgets() {
+  async getAllBudgets() {
     this.budgetService.getAllBudgets().subscribe((budgets) => {
       this.budgetList = budgets;
       this.extractUniqueYears();
@@ -90,7 +90,7 @@ export class BudgetListComponent implements OnInit {
     this.getMonthlyExpense(year);
   }
 
-  getMonthlyExpense(year: number) {
+  async getMonthlyExpense(year: number) {
     this.expenseService.getMonthlyExpenseByYear(year).subscribe(expenses => {
       this.filteredExpenses = expenses;
 

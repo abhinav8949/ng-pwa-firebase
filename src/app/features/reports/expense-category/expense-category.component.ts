@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { collection, collectionData, Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { ApexAxisChartSeries } from 'ng-apexcharts';
@@ -10,7 +10,7 @@ import { BarChartComponent } from "../charts/bar-chart/bar-chart.component";
   templateUrl: './expense-category.component.html',
   styleUrl: './expense-category.component.css'
 })
-export class ExpenseCategoryComponent implements OnInit{
+export class ExpenseCategoryComponent implements OnInit, AfterViewInit{
   
   currentYear = new Date().getFullYear();
   expenses$: Observable<any[]>;
@@ -26,6 +26,10 @@ export class ExpenseCategoryComponent implements OnInit{
   ngOnInit() {
     this.initializeChart();
     this.expenses$.subscribe(expenses => this.updateChart(expenses));
+  }
+
+  ngAfterViewInit() {
+    this.initializeChart();
   }
 
   initializeChart() {
