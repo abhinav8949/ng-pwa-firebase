@@ -3,8 +3,8 @@ name: Firebase Deploy Workflow
 on:
   push:
     branches:
-      - master  # Auto-deploys to DEV on merge
-  workflow_dispatch:  # Allows manual trigger for PROD
+      - master  # Auto-deploys to DEV_ENV on merge
+  workflow_dispatch:  # Allows manual trigger for PROD_ENV
 
 jobs:
   deploy-dev:
@@ -22,16 +22,20 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Angular App (DEV)
+      - name: Build Angular App (DEV_ENV)
         run: npm run build -- --configuration=development
 
-      - name: Deploy to Firebase DEV
+      - name: Authenticate Firebase
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > $HOME/firebase-key.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-key.json" >> $GITHUB_ENV
+
+      - name: Deploy to Firebase DEV_ENV
         uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting:expense-tracker-1ff01-dev
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -50,13 +54,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Angular App (PROD)
+      - name: Build Angular App (PROD_ENV)
         run: npm run build -- --configuration=production
 
-      - name: Deploy to Firebase PROD
+      - name: Authenticate Firebase
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > $HOME/firebase-key.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-key.json" >> $GITHUB_ENV
+
+      - name: Deploy to Firebase PROD_ENV
         uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting:expense-tracker-1ff01
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
