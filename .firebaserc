@@ -5,11 +5,11 @@
   "targets": {
     "expense-tracker-1ff01": {
       "hosting": {
-        "dev": [
-          "expense-tracker-1ff01-dev"
-        ],
         "prod": [
           "expense-tracker-1ff01"
+        ],
+        "dev": [
+          "expense-tracker-1ff01-dev"
         ]
       }
     }

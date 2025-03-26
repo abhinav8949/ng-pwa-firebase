@@ -1,13 +1,13 @@
 {
   "hosting": [
     {
-      "target": "prod",
+      "site": "expense-tracker-1ff01",
       "public": "dist/expense-tracker/browser",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [{ "source": "**", "destination": "/index.html" }]
     },
     {
-      "target": "dev",
+      "site": "expense-tracker-1ff01-dev",
       "public": "dist/expense-tracker/browser",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [{ "source": "**", "destination": "/index.html" }]
