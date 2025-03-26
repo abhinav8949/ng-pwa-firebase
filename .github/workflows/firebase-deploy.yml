@@ -38,7 +38,7 @@ jobs:
       - run: echo "✅ Firebase CLI installed"
 
       - name: Deploy to Firebase DEV
-        run: firebase deploy --only hosting:dev
+        run: firebase deploy --only hosting
         env:
           GOOGLE_APPLICATION_CREDENTIALS: $GITHUB_WORKSPACE/firebase.json
       - run: echo "✅ Deployment to Firebase DEV completed"
@@ -75,7 +75,7 @@ jobs:
       - run: echo "✅ Firebase CLI installed"
 
       - name: Deploy to Firebase PROD
-        run: firebase deploy --only hosting:prod
+        run: firebase deploy --only hosting
         env:
           GOOGLE_APPLICATION_CREDENTIALS: $GITHUB_WORKSPACE/firebase.json
       - run: echo "✅ Deployment to Firebase PROD completed"
