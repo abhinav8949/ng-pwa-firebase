@@ -3,8 +3,8 @@ name: Firebase Deploy Workflow
 on:
   push:
     branches:
-      - master  # Auto-deploys to DEV_ENV on merge
-  workflow_dispatch:  # Allows manual trigger for PROD_ENV
+      - master  # Auto-deploys to DEV
+  workflow_dispatch:  # Allows manual trigger for PROD
 
 jobs:
   deploy-dev:
@@ -29,13 +29,13 @@ jobs:
         run: |
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > $HOME/firebase-key.json
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-key.json" >> $GITHUB_ENV
+          cat $HOME/firebase-key.json  # Debugging line to verify JSON content
 
       - name: Deploy to Firebase DEV_ENV
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting:expense-tracker-1ff01-dev
+        run: |
+          firebase deploy --only hosting:expense-tracker-1ff01-dev --token "$(cat $HOME/firebase-key.json)"
         env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-key.json
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -61,10 +61,10 @@ jobs:
         run: |
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > $HOME/firebase-key.json
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-key.json" >> $GITHUB_ENV
+          cat $HOME/firebase-key.json  # Debugging line to verify JSON content
 
       - name: Deploy to Firebase PROD_ENV
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting:expense-tracker-1ff01
+        run: |
+          firebase deploy --only hosting:expense-tracker-1ff01 --token "$(cat $HOME/firebase-key.json)"
         env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-key.json
