@@ -3,8 +3,8 @@ name: Firebase Deploy Workflow
 on:
   push:
     branches:
-      - master  # Auto-deploys to DEV_ENV on merge
-  workflow_dispatch:  # Allows manual trigger for PROD_ENV
+      - master  # Auto-deploys to DEV on merge
+  workflow_dispatch:  # Allows manual trigger for PROD
 
 jobs:
   deploy-dev:
@@ -13,50 +13,63 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - run: echo "✅ Checked out repository"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: echo "✅ Node.js setup complete"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+      - run: echo "✅ Dependencies installed"
 
-      - name: Build Angular App (DEV_ENV)
+      - name: Build Angular App (DEV)
         run: npm run build -- --configuration=development
+      - run: echo "✅ Angular build completed for DEV"
 
-      - name: Deploy to Firebase DEV_ENV
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting:dev
+      - name: Setup Firebase CLI
+        run: npm install -g firebase-tools
+      - run: echo "✅ Firebase CLI installed"
+
+      - name: Deploy to Firebase DEV
+        run: firebase deploy --only hosting:dev
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase.json
+      - run: echo "✅ Deployment to Firebase DEV completed"
 
   deploy-prod:
     runs-on: ubuntu-latest
     environment: PROD
-    needs: deploy-dev
     if: github.event_name == 'workflow_dispatch'  # Only runs when triggered manually
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - run: echo "✅ Checked out repository"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: echo "✅ Node.js setup complete"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+      - run: echo "✅ Dependencies installed"
 
-      - name: Build Angular App (PROD_ENV)
+      - name: Build Angular App (PROD)
         run: npm run build -- --configuration=production
+      - run: echo "✅ Angular build completed for PROD"
 
-      - name: Deploy to Firebase PROD_ENV
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting:prod
+      - name: Setup Firebase CLI
+        run: npm install -g firebase-tools
+      - run: echo "✅ Firebase CLI installed"
+
+      - name: Deploy to Firebase PROD
+        run: firebase deploy --only hosting:prod
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase.json
+      - run: echo "✅ Deployment to Firebase PROD completed"
