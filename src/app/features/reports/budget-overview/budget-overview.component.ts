@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Budget } from '../../../core/models/expense';
 import { Observable, Subscription } from 'rxjs';
-import { NgApexchartsModule, ApexAxisChartSeries } from 'ng-apexcharts';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { LineChartComponent } from "../charts/line-chart/line-chart.component";
 
