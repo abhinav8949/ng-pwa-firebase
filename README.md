@@ -1,59 +1,69 @@
-# ExpenseTracker
+## Expense Tracker
+The **Expense Tracker** is a user-friendly application designed to help individuals track their 
+**expenses, budget, and savings** effectively. The app features an interactive **dashboard** that 
+provides a graphical representation of financial data, enabling users to visualize their financial 
+habits and make informed decisions.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
+#### Host Url: ``https://expense-tracker-1ff01.web.app/``
 
-## Development server
+## Features
+✅ **Expense Tracking** - Log daily, weekly, or monthly expenses with category-wise classification.
+✅ **Budget Management** - Set and monitor budgets for different spending categories.
+✅ **Savings Calculation** - Track savings based on income and expenses.
+✅ **Graphical Representation** - View insights using **charts and graphs** for better understanding.
+✅ **Dashboard Overview** - Get a real-time summary of financial status.
+✅ **User Authentication** - Secure login and registration system (if applicable).
+✅ **Export Data** - Export reports in **CSV or PDF format** for offline tracking.
 
-To start a local development server, run:
+## Tech Stack
+- **Frontend:** Angular
+- **Backend:** Firebase
+- **Database:** Firestore
+- **Charts & Graphs:** Apex Chart
 
-```bash
+## Installation
+### Prerequisites
+Ensure you have the following installed:
+- Node.js (for Angular-based applications)
+- Firebase account
+- Git
+
+### Steps to Install & Run
+```sh
+# Clone the repository
+git clone https://github.com/abhinav8949/ng-pwa-firebase.git
+cd expense-tracker
+
+# Install dependencies
+npm install
+
+# Run the development server
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Usage
+1. **Sign Up/Login** to access your dashboard.
+2. **Add Expenses** and categorize them (Food, Travel, Bills, etc.).
+3. **Set Budget Limits** to avoid overspending.
+4. **View Graphical Reports** to analyze spending habits.
+5. **Monitor Savings** and adjust expenses accordingly.
 
-## Code scaffolding
+## Screenshots
+![Screenshot 2025-03-26 121011](https://github.com/user-attachments/assets/3c106eb7-38aa-4199-87b1-b1d1cd9f1db4)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+![Screenshot 2025-03-26 120626](https://github.com/user-attachments/assets/a953f42c-5bdc-47dd-a4e0-dd579bf1698b)
 
-```bash
-ng generate component component-name
-```
+![Screenshot 2025-03-26 120731](https://github.com/user-attachments/assets/3c8d5c94-eb22-4beb-9669-dff5fc0e0c05)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+![Screenshot 2025-03-26 120924](https://github.com/user-attachments/assets/66611e26-342b-445c-b11e-37d2337d6b49)
+## Future Enhancements
+- AI-based **spending recommendations**.
+- **Bank integration** for automatic expense tracking.
+- Multi-currency support.
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Contributing
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes and commit (`git commit -m 'Added new feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Open a Pull Request.
