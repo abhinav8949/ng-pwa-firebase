@@ -80,6 +80,7 @@ The project supports two environments: Development (`dev`) and Production (`prod
        ng build --configuration=production
   ```
 *Output is generated in dist/expense-tracker/. Note: You don’t need to deploy manually—GitHub Workflows handle deployment.*
+![Screenshot 2025-03-27 112052](https://github.com/user-attachments/assets/a08c8184-e38f-45e6-a806-ebff02dadf52)
 
 ### Deployment
 Deployment to dev and prod environments is automated via GitHub Workflows. Simply raise a pull request from working branch.
